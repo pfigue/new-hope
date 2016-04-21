@@ -50,3 +50,23 @@
     (crit/quick-bench (second (reverse coll)))
     (crit/quick-bench (last (butlast coll))))
   )
+
+;; Day n+1 of the rest of your Clojure life.
+(defn sum-it-all-up
+        [ iterable ]
+        (loop [acc 0 l iterable]  ;; Tail Call Optimization
+          (if (empty? l)
+            acc
+            (recur  ;; More TCO.
+             (+ acc (first l))
+             (rest l)))))
+
+(facts "Sum It All Up"
+       (= (sum-it-all-up [1 2 3]) 6)
+       (= (sum-it-all-up (list 0 -2 5 5)) 8)
+       (= (sum-it-all-up #{4 2 1}) 7)
+       (= (sum-it-all-up '(0 0 -1)) -1)
+       (= (sum-it-all-up '(1 10 3)) 14)
+       (= (sum-it-all-up []) 0)
+       (= (sum-it-all-up (list 5)) 5))
+
