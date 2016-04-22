@@ -70,3 +70,24 @@
        (= (sum-it-all-up []) 0)
        (= (sum-it-all-up (list 5)) 5))
 
+
+(defn find-the-odd-numbers
+  [ iterable ]
+
+  (loop 
+      [ acc [] l iterable ]
+    (if (empty? l)
+      acc
+      (let [n (first l)]
+        (recur
+         (if (odd? n)
+           (conj acc n)
+           acc)
+         (rest l))))))
+
+(facts "Find the Odd Numbers"
+       (= (find-the-odd-numbers #{1 2 3 4 5}) '(1 3 5))
+       (= (find-the-odd-numbers [4 2 1 6]) '(1))
+       (= (find-the-odd-numbers [2 2 4 6]) '())
+       (= (find-the-odd-numbers [1 1 1 3]) '(1 1 1 3)))
+
