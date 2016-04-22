@@ -112,6 +112,22 @@
 (facts "Palindrome Detector"
        (false? (palindrome? '(1 2 3 4 5)))
        (true? (palindrome? "racecar"))
-       (false? (palindrome [1 2 3 4 5]))
-       (true? (palindrome [1 2 3 2 1])))
+       (false? (palindrome? [1 2 3 4 5]))
+       (true? (palindrome? [1 2 3 2 1])))
 
+
+(defn dup
+  "Duplicates the elements of a sequence"
+  [ s ]
+  (loop [ result [] l s ]
+    (if (empty? l)
+      result
+      (let
+          [n (first l)]
+        (recur
+         (concat result [n n])
+         (rest l))))))
+ 
+(facts "Duplicate a Sequence"
+       (= (dup [1 2 3]) '(1 1 2 2 3 3))
+       (= (dup [:a :a :b :b]) '(:a :a :a :a :b :b :b :b)))
