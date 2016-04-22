@@ -91,3 +91,27 @@
        (= (find-the-odd-numbers [2 2 4 6]) '())
        (= (find-the-odd-numbers [1 1 1 3]) '(1 1 1 3)))
 
+
+(defmulti diverse-reverse class)
+(defmethod diverse-reverse String
+  [ s ]
+  (clojure.string/reverse s))
+(defmethod diverse-reverse  :default
+  [ s ]
+  (reverse s))
+
+(facts "A reverse function for all kind of types I know"
+       (= (diverse-reverse "abc") "cba")
+       (= (diverse-reverse [1 2 3]) [3 2 1]))
+
+
+(defn palindrome?
+  [ candidate ]
+  (= candidate (diverse-reverse candidate)))
+
+(facts "Palindrome Detector"
+       (false? (palindrome? '(1 2 3 4 5)))
+       (true? (palindrome? "racecar"))
+       (false? (palindrome [1 2 3 4 5]))
+       (true? (palindrome [1 2 3 2 1])))
+
