@@ -180,3 +180,22 @@
        (= (drop-nth [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
        (= (drop-nth [:a :b :c :d :e :f] 2) [:a :c :e])
        (= (drop-nth [1 2 3 4 5 6] 4) [1 2 3 5 6]))
+
+
+(defn my-replicate
+  "Replicates each element of a sequence a variable number of times."
+  [ s n ]
+  (loop [ result [] times n l s]
+    (if (empty? l)
+      result
+      (recur
+       (concat result (take times (repeat (first l))))
+       times
+       (rest l)))))
+
+(facts "Replicates each element of a seq a variable number of times."
+       (= (my-replicate [1 2 3] 2) '(1 1 2 2 3 3))
+       (= (my-replicate [:a :b] 4) '(:a :a :a :a :b :b :b :b))
+       (= (my-replicate [4 5 6] 1) '(4 5 6))
+       (= (my-replicate [[1 2] [3 4]] 2) '([1 2] [1 2] [3 4] [3 4]))
+       (= (my-replicate [44 33] 2) [44 44 33 33]))
