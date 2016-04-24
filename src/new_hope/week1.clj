@@ -131,3 +131,24 @@
 (facts "Duplicate a Sequence"
        (= (dup [1 2 3]) '(1 1 2 2 3 3))
        (= (dup [:a :a :b :b]) '(:a :a :a :a :b :b :b :b)))
+
+
+(defn compress-a-sequence
+  "Removes duplicated elements in a sequence"
+  [ s ]
+  (loop [result []
+         last-char nil
+         l s]
+    (if (empty? l)
+      result
+      (let [ current-char (first l) ]
+        (if (= last-char current-char)
+          (recur
+           result last-char (rest l))
+          (recur
+           (concat result [current-char ])
+           current-char (rest l)))))))
+
+(facts "Compress a Sequence"
+       (= (compress-a-sequence [1 1 2 3 3 2 2 3]) '(1 2 3 2 3))
+       (= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2])))
