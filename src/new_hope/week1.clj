@@ -152,3 +152,31 @@
 (facts "Compress a Sequence"
        (= (compress-a-sequence [1 1 2 3 3 2 2 3]) '(1 2 3 2 3))
        (= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2])))
+
+
+(defn drop-nth
+  "Drops n-th item of the sequence"
+  [ s n ]
+
+  (if (< n 1)
+    (throw (Exception. "n-th item should be >= 1.")))
+
+  (loop [result []
+         position n
+         origin s ]
+
+    (if (empty? origin)
+      result
+      (if (= 1 position)
+        (recur result n
+               (rest origin))
+        (recur
+         (concat result [ (first origin) ])
+         (- position 1)
+         (rest origin))))))
+
+(facts "Drop Every n-th Item"
+       (drop-nth [1 2 3 4] 0) => (throws Exception #"n-th item should be >= 1.")
+       (= (drop-nth [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
+       (= (drop-nth [:a :b :c :d :e :f] 2) [:a :c :e])
+       (= (drop-nth [1 2 3 4 5 6] 4) [1 2 3 5 6]))
