@@ -106,3 +106,34 @@ Example:
        (symmetric-difference #{:a :b :c} #{}) => #{:a :b :c}
        (symmetric-difference #{} #{4 5 6}) => #{4 5 6}
        (symmetric-difference #{[1 2] [2 3]} #{[2 3] [3 4]}) => #{[3 4] [1 2]}) 
+
+
+(defn pascal-triangle
+  [lineno]
+
+  (case lineno
+    1 [1]
+    (let [previous-lineno (- lineno 1)
+          previous-row (pascal-triangle previous-lineno)]
+      (loop [result [] i 1]
+        (if (> i lineno)
+          result
+          (recur
+           (concat result
+                   (if (= i 1)
+                     [ 1 ]
+                     (if (= i lineno)
+                       [ 1 ]
+                       [ (+
+                          (nth previous-row (- i 1))
+                          (nth previous-row (- i 2))) ])))
+           (+ 1 i)))))))
+
+(facts ""
+       (pascal-triangle 1) => [ 1 ]
+       (map pascal-triangle (range 1 6)) => [  [1]
+                                             [ 1 1 ]
+                                            [ 1 2 1 ]
+                                           [ 1 3 3 1 ]
+                                          [ 1 4 6 4 1 ]]
+       (pascal-triangle 11) => [1 10 45 120 210 252 210 120 45 10 1])
