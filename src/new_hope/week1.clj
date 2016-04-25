@@ -62,13 +62,13 @@
              (rest l)))))
 
 (facts "Sum It All Up"
-       (= (sum-it-all-up [1 2 3]) 6)
-       (= (sum-it-all-up (list 0 -2 5 5)) 8)
-       (= (sum-it-all-up #{4 2 1}) 7)
-       (= (sum-it-all-up '(0 0 -1)) -1)
-       (= (sum-it-all-up '(1 10 3)) 14)
-       (= (sum-it-all-up []) 0)
-       (= (sum-it-all-up (list 5)) 5))
+       (sum-it-all-up [1 2 3]) => 6
+       (sum-it-all-up (list 0 -2 5 5)) => 8
+       (sum-it-all-up #{4 2 1}) => 7
+       (sum-it-all-up '(0 0 -1)) => -1
+       (sum-it-all-up '(1 10 3)) => 14
+       (sum-it-all-up []) => 0
+       (sum-it-all-up (list 5)) => 5)
 
 
 (defn find-the-odd-numbers
@@ -86,10 +86,10 @@
          (rest l))))))
 
 (facts "Find the Odd Numbers"
-       (= (find-the-odd-numbers #{1 2 3 4 5}) '(1 3 5))
-       (= (find-the-odd-numbers [4 2 1 6]) '(1))
-       (= (find-the-odd-numbers [2 2 4 6]) '())
-       (= (find-the-odd-numbers [1 1 1 3]) '(1 1 1 3)))
+       (find-the-odd-numbers #{1 2 3 4 5}) => '(1 3 5)
+       (find-the-odd-numbers [4 2 1 6]) => '(1)
+       (find-the-odd-numbers [2 2 4 6]) => '()
+       (find-the-odd-numbers [1 1 1 3]) => '(1 1 1 3))
 
 
 (defmulti diverse-reverse class)
@@ -101,8 +101,8 @@
   (reverse s))
 
 (facts "A reverse function for all kind of types I know"
-       (= (diverse-reverse "abc") "cba")
-       (= (diverse-reverse [1 2 3]) [3 2 1]))
+       (diverse-reverse "abc") => "cba"
+       (diverse-reverse [1 2 3]) => [3 2 1])
 
 
 (defn palindrome?
@@ -110,10 +110,10 @@
   (= candidate (diverse-reverse candidate)))
 
 (facts "Palindrome Detector"
-       (false? (palindrome? '(1 2 3 4 5)))
-       (true? (palindrome? "racecar"))
-       (false? (palindrome? [1 2 3 4 5]))
-       (true? (palindrome? [1 2 3 2 1])))
+       (palindrome? '(1 2 3 4 5)) => false
+       (palindrome? "racecar") => true
+       (palindrome? [1 2 3 4 5]) => false
+       (palindrome? [1 2 3 2 1]) => true)
 
 
 (defn dup
@@ -129,8 +129,8 @@
          (rest l))))))
  
 (facts "Duplicate a Sequence"
-       (= (dup [1 2 3]) '(1 1 2 2 3 3))
-       (= (dup [:a :a :b :b]) '(:a :a :a :a :b :b :b :b)))
+       (dup [1 2 3]) => '(1 1 2 2 3 3)
+       (dup [:a :a :b :b]) => '(:a :a :a :a :b :b :b :b))
 
 
 (defn compress-a-sequence
@@ -150,8 +150,8 @@
            current-char (rest l)))))))
 
 (facts "Compress a Sequence"
-       (= (compress-a-sequence [1 1 2 3 3 2 2 3]) '(1 2 3 2 3))
-       (= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2])))
+       (compress-a-sequence [1 1 2 3 3 2 2 3]) => '(1 2 3 2 3)
+       (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) => '([1 2] [3 4] [1 2]))
 
 
 (defn pack-a-sequence
@@ -170,17 +170,10 @@
                   (recur result (rest l) (concat current-pack [elem]))
                   (recur (conj result current-pack) (rest l) (list elem)))))))))
 
-
-(comment
-(println (pack-a-sequence [1 1 2 1 1 1 3 3]))
-(println (pack-a-sequence [:a :a :b :b :c]))
-(println (pack-a-sequence [[1 2] [1 2] [3 4]])))
-
-
 (facts "Packs some sequences"
-       (= (pack-a-sequence [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3)))
-       (= (pack-a-sequence [:a :a :b :b :c]) '((:a :a) (:b :b) (:c) (:d)))
-       (= (pack-a-sequence [[1 2] [1 2] [3 4]]) '( ([1 2] [1 2]) ([3 4]) )))
+       (pack-a-sequence [1 1 2 1 1 1 3 3]) => '((1 1) (2) (1 1 1) (3 3))
+       (pack-a-sequence [:a :a :b :b :c]) => '((:a :a) (:b :b) (:c))
+       (pack-a-sequence [[1 2] [1 2] [3 4]]) => '( ([1 2] [1 2]) ([3 4]) ))
 
 
 (defn drop-nth
@@ -206,9 +199,9 @@
 
 (facts "Drop Every n-th Item"
        (drop-nth [1 2 3 4] 0) => (throws Exception #"n-th item should be >= 1.")
-       (= (drop-nth [1 2 3 4 5 6 7 8] 3) [1 2 4 5 7 8])
-       (= (drop-nth [:a :b :c :d :e :f] 2) [:a :c :e])
-       (= (drop-nth [1 2 3 4 5 6] 4) [1 2 3 5 6]))
+       (drop-nth [1 2 3 4 5 6 7 8] 3) => [1 2 4 5 7 8]
+       (drop-nth [:a :b :c :d :e :f] 2) => [:a :c :e]
+       (drop-nth [1 2 3 4 5 6] 4) => [1 2 3 5 6])
 
 
 (defn my-replicate
@@ -226,8 +219,8 @@
        (rest l)))))
 
 (facts "Replicates each element of a seq a variable number of times."
-       (= (my-replicate [1 2 3] 2) '(1 1 2 2 3 3))
-       (= (my-replicate [:a :b] 4) '(:a :a :a :a :b :b :b :b))
-       (= (my-replicate [4 5 6] 1) '(4 5 6))
-       (= (my-replicate [[1 2] [3 4]] 2) '([1 2] [1 2] [3 4] [3 4]))
-       (= (my-replicate [44 33] 2) [44 44 33 33]))
+       (my-replicate [1 2 3] 2) => '(1 1 2 2 3 3)
+       (my-replicate [:a :b] 4) => '(:a :a :a :a :b :b :b :b)
+       (my-replicate [4 5 6] 1) => '(4 5 6)
+       (my-replicate [[1 2] [3 4]] 2) => '([1 2] [1 2] [3 4] [3 4])
+       (my-replicate [44 33] 2) => [44 44 33 33])
