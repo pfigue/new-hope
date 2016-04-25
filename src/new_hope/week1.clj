@@ -154,6 +154,35 @@
        (= (compress-a-sequence [[1 2] [1 2] [3 4] [1 2]]) '([1 2] [3 4] [1 2])))
 
 
+(defn pack-a-sequence
+  ""
+  [ s ]
+  (loop [result () l s current-pack ()]
+        (if (empty? l)
+          (if (empty? current-pack)
+            (reverse result)
+            (recur (conj result current-pack) () ()))
+          (let [elem (first l)]
+            (if (empty? current-pack)
+              (recur result (rest l) (concat current-pack [ elem ]))
+              (let [pack-flavor (first current-pack)]
+                (if (= elem pack-flavor)
+                  (recur result (rest l) (concat current-pack [elem]))
+                  (recur (conj result current-pack) (rest l) (list elem)))))))))
+
+
+(comment
+(println (pack-a-sequence [1 1 2 1 1 1 3 3]))
+(println (pack-a-sequence [:a :a :b :b :c]))
+(println (pack-a-sequence [[1 2] [1 2] [3 4]])))
+
+
+(facts "Packs some sequences"
+       (= (pack-a-sequence [1 1 2 1 1 1 3 3]) '((1 1) (2) (1 1 1) (3 3)))
+       (= (pack-a-sequence [:a :a :b :b :c]) '((:a :a) (:b :b) (:c) (:d)))
+       (= (pack-a-sequence [[1 2] [1 2] [3 4]]) '( ([1 2] [1 2]) ([3 4]) )))
+
+
 (defn drop-nth
   "Drops n-th item of the sequence"
   [ s n ]
@@ -183,7 +212,10 @@
 
 
 (defn my-replicate
-  "Replicates each element of a sequence a variable number of times."
+  "Replicates each element of a sequence a variable number of times.
+
+  There is another clojure.core/replicate function, now obsoleted.
+  See https://clojuredocs.org/clojure.core/replicate"
   [ s n ]
   (loop [ result [] times n l s]
     (if (empty? l)
